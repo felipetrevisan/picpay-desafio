@@ -1,0 +1,579 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Servi\u00e7o de Cadastro de Usu\u00e1rios e Transa\u00e7\u00f5es",
+        "description": "API Utilizada para gest\u00e3o do Cadastro de Usu\u00e1rios e Transa\u00e7\u00f5es do PicPay",
+        "version": "1.0.0"
+    },
+    "host": "localhost:8000",
+    "basePath": "/",
+    "schemes": [
+        "http"
+    ],
+    "paths": {
+        "/transactions/{transaction_id}": {
+            "get": {
+                "tags": [
+                    "Pagamentos"
+                ],
+                "summary": "Retorna os detalhes de uma transa\u00e7\u00e3o.",
+                "operationId": "getTransactionUsingGET",
+                "produces": [
+                    "*\\/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "transaction_id",
+                        "in": "path",
+                        "description": "transaction_id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Transaction"
+                        }
+                    },
+                    "201": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Transaction"
+                        }
+                    },
+                    "404": {
+                        "description": "Transa\u00e7\u00e3o n\u00e3o encontrada",
+                        "schema": {
+                            "$ref": "#/definitions/GenericError"
+                        }
+                    },
+                    "500": {
+                        "description": "Erro interno do servidor",
+                        "schema": {
+                            "$ref": "#/definitions/GenericError"
+                        }
+                    }
+                }
+            }
+        },
+        "/transactions": {
+            "post": {
+                "tags": [
+                    "Pagamentos"
+                ],
+                "summary": "Cria uma nova transa\u00e7\u00e3o entre duas contas do PicPay.",
+                "operationId": "createTransactionUsingPOST",
+                "consumes": [
+                    "application/json;charset=UTF-8"
+                ],
+                "produces": [
+                    "application/json;charset=UTF-8"
+                ],
+                "parameters": [
+                    {
+                        "name": "request",
+                        "in": "body",
+                        "description": "request",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/CreateTransactionRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Transaction"
+                        }
+                    },
+                    "201": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Transaction"
+                        }
+                    },
+                    "401": {
+                        "description": "Transa\u00e7\u00e3o n\u00e3o autorizada",
+                        "schema": {
+                            "$ref": "#/definitions/GenericError"
+                        }
+                    },
+                    "422": {
+                        "description": "Erro de valida\u00e7\u00e3o nos campos",
+                        "schema": {
+                            "$ref": "#/definitions/GenericError"
+                        }
+                    },
+                    "500": {
+                        "description": "Erro interno do servidor",
+                        "schema": {
+                            "$ref": "#/definitions/GenericError"
+                        }
+                    }
+                }
+            }
+        },
+        "/users": {
+            "get": {
+                "tags": [
+                    "Usu\u00e1rios"
+                ],
+                "summary": "Realiza uma listagem de usu\u00e1rios baseada em filtros. Se um filtro n\u00e3o for especificado, deve listar os usu\u00e1rios odernados por nome.",
+                "operationId": "listUsersUsingGET",
+                "produces": [
+                    "application/json;charset=UTF-8"
+                ],
+                "parameters": [
+                    {
+                        "name": "q",
+                        "in": "query",
+                        "description": "q",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/User"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro interno do servidor",
+                        "schema": {
+                            "$ref": "#/definitions/GenericError"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Usu\u00e1rios"
+                ],
+                "summary": "Realiza o cadastro de novos usu\u00e1rios no sistema.",
+                "operationId": "createUserUsingPOST",
+                "consumes": [
+                    "application/json;charset=UTF-8"
+                ],
+                "produces": [
+                    "application/json;charset=UTF-8"
+                ],
+                "parameters": [
+                    {
+                        "name": "request",
+                        "in": "body",
+                        "description": "request",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/CreateUserRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    },
+                    "201": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    },
+                    "422": {
+                        "description": "Erro de valida\u00e7\u00e3o nos campos",
+                        "schema": {
+                            "$ref": "#/definitions/GenericError"
+                        }
+                    },
+                    "500": {
+                        "description": "Erro interno do servidor",
+                        "schema": {
+                            "$ref": "#/definitions/GenericError"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{user_id}": {
+            "get": {
+                "tags": [
+                    "Usu\u00e1rios"
+                ],
+                "summary": "Retorna dados detalhados de um usu\u00e1rio.",
+                "operationId": "getUserUsingGET",
+                "consumes": [
+                    "application/json;charset=UTF-8"
+                ],
+                "produces": [
+                    "application/json;charset=UTF-8"
+                ],
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "user_id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    },
+                    "404": {
+                        "description": "Usu\u00e1rio n\u00e3o encontrado",
+                        "schema": {
+                            "$ref": "#/definitions/GenericError"
+                        }
+                    },
+                    "500": {
+                        "description": "Erro interno do servidor",
+                        "schema": {
+                            "$ref": "#/definitions/GenericError"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/consumers": {
+            "post": {
+                "tags": [
+                    "Usu\u00e1rios"
+                ],
+                "summary": "Realiza o cadastro de um perfil de consumidor para um usu\u00e1rio.",
+                "operationId": "createConsumerUsingPOST",
+                "consumes": [
+                    "application/json;charset=UTF-8"
+                ],
+                "produces": [
+                    "application/json;charset=UTF-8"
+                ],
+                "parameters": [
+                    {
+                        "name": "request",
+                        "in": "body",
+                        "description": "request",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/CreateConsumerRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    },
+                    "201": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    },
+                    "401": {
+                        "description": "Usu\u00e1rio n\u00e3o encontrado",
+                        "schema": {
+                            "$ref": "#/definitions/GenericError"
+                        }
+                    },
+                    "422": {
+                        "description": "Erro de valida\u00e7\u00e3o nos campos",
+                        "schema": {
+                            "$ref": "#/definitions/GenericError"
+                        }
+                    },
+                    "500": {
+                        "description": "Erro interno do servidor",
+                        "schema": {
+                            "$ref": "#/definitions/GenericError"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/sellers": {
+            "post": {
+                "tags": [
+                    "Usu\u00e1rios"
+                ],
+                "summary": "Realiza o cadastro de um perfil de lojista para um usu\u00e1rio.",
+                "operationId": "createSellerUsingPOST",
+                "consumes": [
+                    "application/json;charset=UTF-8"
+                ],
+                "produces": [
+                    "application/json;charset=UTF-8"
+                ],
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "user_id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "request",
+                        "in": "body",
+                        "description": "request",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/CreateSellerRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    },
+                    "201": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    },
+                    "401": {
+                        "description": "Usu\u00e1rio n\u00e3o encontrado",
+                        "schema": {
+                            "$ref": "#/definitions/GenericError"
+                        }
+                    },
+                    "422": {
+                        "description": "Erro de valida\u00e7\u00e3o nos campos",
+                        "schema": {
+                            "$ref": "#/definitions/GenericError"
+                        }
+                    },
+                    "500": {
+                        "description": "Erro interno do servidor",
+                        "schema": {
+                            "$ref": "#/definitions/GenericError"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Accounts": {
+            "title": "Accounts",
+            "properties": {
+                "consumer": {
+                    "$ref": "#/definitions/Consumer"
+                },
+                "seller": {
+                    "$ref": "#/definitions/Seller"
+                }
+            },
+            "type": "object"
+        },
+        "Consumer": {
+            "title": "Consumer",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "CreateConsumerRequest": {
+            "title": "CreateConsumerRequest",
+            "properties": {
+                "user_id": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "CreateSellerRequest": {
+            "title": "CreateSellerRequest",
+            "properties": {
+                "user_id": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                },
+                "cnpj": {
+                    "type": "string"
+                },
+                "fantasy_name": {
+                    "type": "string"
+                },
+                "social_name": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "CreateTransactionRequest": {
+            "title": "CreateTransactionRequest",
+            "properties": {
+                "payee_id": {
+                    "type": "string"
+                },
+                "payer_id": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "number"
+                }
+            },
+            "type": "object"
+        },
+        "CreateUserRequest": {
+            "title": "CreateUserRequest",
+            "properties": {
+                "cpf": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "full_name": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "phone_number": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "GenericError": {
+            "title": "GenericError",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "Seller": {
+            "title": "Seller",
+            "properties": {
+                "cnpj": {
+                    "type": "string"
+                },
+                "fantasy_name": {
+                    "type": "string"
+                },
+                "social_name": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "Transaction": {
+            "title": "Transaction",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "payee_id": {
+                    "type": "string"
+                },
+                "payer_id": {
+                    "type": "string"
+                },
+                "transaction_date": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "value": {
+                    "type": "number"
+                }
+            },
+            "type": "object"
+        },
+        "User": {
+            "title": "User",
+            "properties": {
+                "cpf": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "full_name": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "phone_number": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "UserPayload": {
+            "title": "UserPayload",
+            "properties": {
+                "accounts": {
+                    "$ref": "#/definitions/Accounts"
+                },
+                "user": {
+                    "$ref": "#/definitions/User"
+                }
+            },
+            "type": "object"
+        }
+    },
+    "tags": [
+        {
+            "name": "Pagamentos",
+            "description": "Transactions Controller"
+        },
+        {
+            "name": "Usu\u00e1rios",
+            "description": "User Controller"
+        }
+    ]
+}
