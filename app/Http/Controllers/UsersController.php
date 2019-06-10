@@ -68,10 +68,6 @@ class UsersController extends Controller
         $query = $request->query('q', '');
 
         if ($query !== '/users') {
-            // $paginator = User::with(['consumer', 'seller'])
-            //     ->where('full_name', 'like', $query . '%')
-            //     ->orWhere('consumer.username', 'like', $query . '%')
-            //     ->orWhere('seller.username', 'like', $query . '%');
             $paginator = User::with(['consumer', 'seller'])
                 ->where('full_name', 'like', $query . '%')
                 ->orWhereHas('consumer', function ($q) use ($query) {
